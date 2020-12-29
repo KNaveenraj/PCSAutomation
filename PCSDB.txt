@@ -1,0 +1,57 @@
+create database PCSDB;
+
+use PCSDB;
+
+create table Employee(
+EmployeeId int auto_increment ,
+FirstName varchar(30) not null,
+LastName varchar(30)not null,
+UserId varchar(30)not null,
+Password varchar(20)not null,
+Gender varchar(10)not null,
+Role varchar(3)not null,
+Active varchar(10)not null,
+primary key(EmployeeId)
+);
+
+create table Skill(
+SkillId int auto_increment  ,
+SkillName varchar(20)not null,
+SkillDescription varchar(50)not null,
+Active varchar(10)not null,
+primary key(SkillId)
+);
+
+create table Job(
+JobId int auto_increment   ,
+JobTitle varchar(20)not null,
+JobDescription varchar(50)not null,
+CompanyName varchar(50)not null,
+Location varchar(20)not null,
+KeySkill varchar(20)not null,
+Salary numeric,
+Active varchar(10)not null,
+primary key (JobId)
+);
+
+create table EmpSkill(
+ESId int   auto_increment ,
+EmployeeId int not null ,
+SkillId int not null,
+ExpYear float,
+primary key(ESID)
+);
+
+create table EmpJob(
+EJId int auto_increment   ,
+EmployeeId int not null ,
+JobId int not null,
+Recruited varchar(10)not null,
+primary key(EJId)
+);
+
+Select * from Employee;
+Select * from Skill;
+Select * from Job;
+Select * from EmpSkill;
+Select * from EmpJob;

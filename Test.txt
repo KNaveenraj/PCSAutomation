@@ -1,0 +1,158 @@
+package view;
+
+import java.awt.Container;
+import java.sql.SQLException;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import controller.EmployeeController;
+import model.Employee;
+
+public class ViewAllEmp extends JFrame{
+	private EmployeeController empController;
+	JLabel lEmpId,lName,lUserId,lRole,lGender,lStatus;
+	Container container=null;
+	public ViewAllEmp(Employee userId) {
+		container=getContentPane();
+		lEmpId=new JLabel("Employee Id      "+userId.getEmployeeId());
+		lName=new JLabel("Name              "+userId.getFirstName()+""+userId.getLastName());
+		lUserId=new JLabel("User Id         "+userId.getUserId());
+		lRole=new JLabel("Designation       "+userId.getRole());
+		lGender=new JLabel("Gender          "+userId.getGender());
+		lStatus=new JLabel("Status          "+userId.getActive());
+		setLayoutManager();
+		setLocationAndSize();
+		addComponentsToContainer();
+		this.setTitle("Profile view Of "+userId.getFirstName()+userId.getLastName());
+		this.setVisible(true);
+		this.setBounds(10,10,500,500);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+	
+	}
+	private void addComponentsToContainer() {
+		container.add(lEmpId);
+		container.add(lName);
+		container.add(lUserId);
+		container.add(lRole);
+		container.add(lGender);
+		container.add(lStatus);
+		
+	}
+	private void setLocationAndSize() {
+		lEmpId.setBounds(30, 150, 100, 30);
+		lName.setBounds(30, 200, 100, 30);
+		lUserId.setBounds(30, 250, 100, 30);
+		lRole.setBounds(30, 300, 100, 30);
+		lGender.setBounds(30,350,100,30);
+		lStatus.setBounds(30,400,100,30);
+		
+	}
+	private void setLayoutManager() {
+		container.setLayout(null);
+		
+	}
+}
+
+
+
+
+
+
+
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.*;
+import controller.EmployeeController;
+import model.Employee;
+
+public class DisplayEmployee extends JFrame {
+	private EmployeeController empController;
+	JTextArea taEmployeeDetails;
+	JFrame frame;
+	JLabel lID;
+	JTextField tID;
+	JButton bSubmit;
+	 DisplayEmployee obj;
+	public  DisplayEmployee () throws ClassNotFoundException, SQLException
+	{  
+		Container container = getContentPane();
+		empController=new EmployeeController();
+		taEmployeeDetails=new JTextArea();
+		frame=new JFrame("Employee Details");
+		lID=new JLabel("Employee Id");
+		tID=new JTextField();
+		bSubmit=new JButton("SUBMIT");
+	    frame.add(lID);
+	    frame.add(tID);
+	    frame.add(taEmployeeDetails);
+	    frame.add(bSubmit,BorderLayout.CENTER);
+		frame.setVisible(true);
+		frame.setBounds(10,10,1000,1000);
+		frame.setLocationRelativeTo(null);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(true);
+		frame.setLocationRelativeTo(null);
+		frame.setLayout(null);
+		taEmployeeDetails.setBounds(100,100,900,800);
+		lID.setBounds(50, 100, 100, 30);
+		tID.setBounds(200, 100, 150, 30);
+		bSubmit.setBounds(100,300,100, 30);
+		
+		
+		bSubmit.addActionListener(new ActionListener ()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				int id=0;
+				id=Integer.parseInt(tID.getText());
+				
+				try {
+					 obj=new  DisplayEmployee ();
+					obj.showEmployeeData(id);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			}
+				
+		});
+		
+	}
+	public void showEmployeeData(int id)
+	{
+		ArrayList<Employee> data= empController.getAllEmployees();
+		String temp = "";
+		int s1=0;
+		String s2,s3,s4,s5,s6;
+		temp +="Employee Id \t Name \t Gender \t Designation \t Status \t \n";
+		
+		for(Employee emp:data)
+		{
+			s1=emp.getEmployeeId();
+			s2=emp.getFirstName();
+			s3=emp.getLastName();
+			s4=emp.getGender();
+			s5=emp.getRole();
+			s6=emp.getActive();
+			if(id==s1)
+			{
+			temp +=s1+ " \t " +s2+" "+s3+" \t " +s4+" \t " +s5+ " \t "+s6 + "\n";	
+		}
+		
+			taEmployeeDetails.setText(temp);
+		}
+	}	
+			
+	}
